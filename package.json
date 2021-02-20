@@ -4,7 +4,6 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "homepage":"https://harshitg123.github.io/Secrets"
     "build": "webpack"
   },
   "author": "",
