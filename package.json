@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "homepage":"https://harshitg123.github.io/Secrets"
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
