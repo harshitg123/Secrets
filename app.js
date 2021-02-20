@@ -1,5 +1,5 @@
 
-//require('dotenv').config()
+require('dotenv').config()
 
 const express = require('express');
 const ejs = require('ejs');
@@ -17,17 +17,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 
-if(process.env.NODE_ENV == "production"){
-  const CLIENT_ID = process.env.CLIENT_ID;
-  const CLIENT_SECRET = process.env.CLIENT_SECRET;
-  const CLIENT_ID_FB = process.env.CLIENT_ID_FB;
-  const CLIENT_SECRET_FB = process.env.CLIENT_SECRET_FB;
-  const MONGODB_ATLAS = process.env.MONGODB_ATLAS;
-  const SESSION_SECRETS = process.env.SESSION_SECRETS;
-}
-
 app.use(session({
-  secret: SESSION_SECRETS,
+  secret:process.env.SESSION_SECRETS,
   resave: false,
   saveUninitialized: false
 }))
@@ -35,9 +26,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
-mongoose.connect(MONGODB_ATLAS, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.MONGODB_ATLAS, {useNewUrlParser: true, useUnifiedTopology: true})
 mongoose.set("useCreateIndex", true);
 
 const userSchema = new mongoose.Schema({
@@ -65,8 +54,8 @@ passport.deserializeUser((id, done)=>{
 });
 
 passport.use(new GoogleStrategy({
-    clientID: CLIENT_ID,
-    clientSecret: CLIENT_SECRET,
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/google/secrets",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
@@ -79,8 +68,8 @@ passport.use(new GoogleStrategy({
 ));
 
 passport.use(new FacebookStrategy({
-    clientID: CLIENT_ID_FB,
-    clientSecret: CLIENT_SECRET_FB,
+    clientID: process.env.CLIENT_ID_FB,
+    clientSecret: process.env.CLIENT_SECRET_FB,
     callbackURL: "http://localhost:3000/auth/facebook/secrets",
     profileFields: ['id', 'emails', 'name']
   },
